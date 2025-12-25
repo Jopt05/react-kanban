@@ -4,7 +4,7 @@ import { getApiError } from '../utils/functions';
 
 interface RequestProps {
     endpoint: string;
-    options?: RequestInit;
+    options?: object;
     body?: object;
 }
 
@@ -22,7 +22,7 @@ const useFetch = () => {
         error: null
     });
 
-    const handleGet = async ({endpoint}: RequestProps) => {
+    const handleGet = async ({endpoint, options}: RequestProps) => {
         try {
 
             setFetchState(prev => ({
@@ -30,7 +30,7 @@ const useFetch = () => {
                 loading: true
             }));
 
-            const response = await kanbanApi.get(endpoint);
+            const response = await kanbanApi.get(endpoint, options);
 
             setFetchState(prev => ({
                 ...prev,

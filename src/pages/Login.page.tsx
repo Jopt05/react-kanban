@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import useForm from '../hooks/useForm.hook'
 import useFetch from '../hooks/useFetch.hook';
 import loadingGif from '../assets/loader.gif';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/auth.context';
 
 export const Login = () => {
+
+    const { signIn } = useContext( AuthContext );
 
     const { form, handleChange, handleBlur, formErrors } = useForm({
         email: '',
@@ -19,6 +22,7 @@ export const Login = () => {
     useEffect(() => {
         if( fetchState?.data ) {
             localStorage.setItem('token', fetchState?.data.token);
+            signIn(fetchState?.data.user.email, fetchState?.data.user.id);
             navigate('/');
         }
     }, [fetchState?.data]);
