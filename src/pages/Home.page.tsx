@@ -2,7 +2,7 @@ import Column from "../components/home/Column.component"
 
 export const Home = () => {
   return (
-    <div className="flex w-full h-screen">
+    <div className="flex lg:w-full w-screen h-screen">
       <section
         className="lg:w-1/5 lg:flex hidden flex-col py-9 px-7 bg-[#2b2c37] border-r border-gray-600"
       >
@@ -31,10 +31,10 @@ export const Home = () => {
         </div>
       </section>
       <section
-        className="lg:w-4/5 flex flex-col"
+        className="lg:w-4/5 flex flex-col overflow-x-scroll"
       >
         <div
-          className="flex justify-between items-center bg-[#2b2c37] py-8 px-7 border-b border-gray-600"
+          className="flex lg:w-full w-screen lg:static fixed top-0 justify-between items-center bg-[#2b2c37] py-8 px-7 border-b border-gray-600"
         >
           <p
             className="text-white text-lg font-semibold"
@@ -52,7 +52,7 @@ export const Home = () => {
           </div>
         </div>
         <div
-          className="w-full h-full flex gap-5 overflow-y-auto overflow-x-auto"
+          className="lg:w-full w-250 h-full flex gap-5 pt-29 lg:pt-0"
         >
           <Column title="Todo" />
           <Column title="In progress" />

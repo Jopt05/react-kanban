@@ -7,7 +7,7 @@ interface ColumnProps {
 const Column = ({ title }: ColumnProps) => {
   return (
     <div
-        className="w-full h-full flex flex-col py-4 px-5"
+        className="lg:w-full w-[400px] h-full flex flex-col py-4 px-5"
     >
         <p
             className="text-white text-lg font-semibold mb-4"
@@ -17,6 +17,12 @@ const Column = ({ title }: ColumnProps) => {
         <div
             className="w-full h-full flex flex-col gap-4"
         >
+            <TaskCard title="Task title" subtasks={0} />
+            <TaskCard title="Task title" subtasks={0} />
+            <TaskCard title="Task title" subtasks={0} />
+            <TaskCard title="Task title" subtasks={0} />
+            <TaskCard title="Task title" subtasks={0} />
+            <TaskCard title="Task title" subtasks={0} />
             <TaskCard title="Task title" subtasks={0} />
             <TaskCard title="Task title" subtasks={0} />
             <TaskCard title="Task title" subtasks={0} />
