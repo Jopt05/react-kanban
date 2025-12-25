@@ -35,7 +35,7 @@ export const Home = () => {
           onAddTask={() => setIsModalOpen(true)}
         />
         <div
-          className="lg:w-full w-250 h-full flex gap-5 pt-29 lg:pt-0"
+          className="lg:w-full w-250 h-full flex gap-5 pt-36 lg:pt-0"
         >
           <Column title="Todo" tasks={boardState?.tasksList?.filter(task => task.status === 'todo')}/>
           <Column title="In progress" tasks={boardState?.tasksList?.filter(task => task.status === 'in progress')}/>
