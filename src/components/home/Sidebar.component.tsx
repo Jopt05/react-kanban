@@ -12,6 +12,7 @@ const Sidebar = ({ onToggleSidebar, sideBarOpen }: SidebarProps) => {
 
   const handleChangeBoard = (boardId: string) => {
     setSelectedBoard(boardId)
+    onToggleSidebar()
   }
 
   return (
