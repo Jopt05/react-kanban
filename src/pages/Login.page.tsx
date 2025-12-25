@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useForm from '../hooks/useForm.hook'
 import useFetch from '../hooks/useFetch.hook';
 import loadingGif from '../assets/loader.gif';
 import { useNavigate } from 'react-router-dom';
-import { getApiError } from '../utils/functions';
 
 export const Login = () => {
 
@@ -15,9 +14,14 @@ export const Login = () => {
     const { handlePost, fetchState } = useFetch();
 
     const [isRegistering, setIsRegistering] = useState(false);
-    const [error, setError] = useState("");
-
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if( fetchState?.data ) {
+            localStorage.setItem('token', fetchState?.data.token);
+            navigate('/');
+        }
+    }, [fetchState?.data]);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -33,14 +37,7 @@ export const Login = () => {
             email: form.email,
             password: form.password
         }
-        const data = await handlePost({endpoint: '/auth/login', body: formData});
-        if( !data ) {
-            setError(getApiError(fetchState?.error));
-            return
-        }
-        setError("");
-        localStorage.setItem('token', data.token);
-        navigate('/');
+        await handlePost({endpoint: '/auth/login', body: formData});
     }
 
     const handleRegister = async() => {
@@ -49,12 +46,7 @@ export const Login = () => {
             password: form.password,
             name: form.name
         };
-        const data = await handlePost({endpoint: '/users', body: formData});
-        if( !data ) {
-            setError(getApiError(fetchState?.error));
-            return
-        }
-        setError("");
+        await handlePost({endpoint: '/users', body: formData});
         setIsRegistering(false);
     }
 
@@ -117,11 +109,11 @@ export const Login = () => {
                 />
             </div>
             {
-                error && (
+                fetchState.error && (
                     <p
-                        className='text-red-400 text-sm mb-4 capitalize'
+                        className='text-red-400 text-sm mb-4 capitalize text-center'
                     >
-                        {error}
+                        {fetchState?.error}
                     </p>
                 )
             }

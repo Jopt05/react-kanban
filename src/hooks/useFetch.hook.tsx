@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import kanbanApi from '../api/kanban.api';
+import { getApiError } from '../utils/functions';
 
 interface RequestProps {
     endpoint: string;
@@ -8,6 +9,7 @@ interface RequestProps {
 }
 
 interface FetchState {
+    data: any;
     loading: boolean;
     error: any;
 }
@@ -15,36 +17,86 @@ interface FetchState {
 const useFetch = () => {
 
     const [fetchState, setFetchState] = useState<FetchState>({
+        data: null,
         loading: false,
         error: null
     });
 
     const handleGet = async ({endpoint}: RequestProps) => {
         try {
-            setFetchState(s => ({...s, loading: true}));
-            const response = await kanbanApi.get(endpoint)
-            setFetchState(s => ({...s, loading: false}));
-            return response.data;
+
+            setFetchState(prev => ({
+                ...prev,
+                loading: true
+            }));
+
+            const response = await kanbanApi.get(endpoint);
+
+            setFetchState(prev => ({
+                ...prev,
+                data: response.data,
+                loading: false,
+                error: null
+            }));
+
         } catch (error: any) {
+
             if( error?.response?.data ) {
-                setFetchState(s => ({...s, loading: false, error: error.response.data}));
+                const err = getApiError(error);
+                setFetchState(prev => ({
+                    ...prev,
+                    data: null,
+                    loading: false,
+                    error: err
+                }));
+                return
             }
-            setFetchState(s => ({...s, loading: false, error}));
+            setFetchState(prev => ({
+                ...prev,
+                data: null,
+                loading: false,
+                error
+            }));
+
         }
     }
 
     const handlePost = async ({endpoint, body}: RequestProps) => {
         try {
-            setFetchState(s => ({...s, loading: true}));
-            const response = await kanbanApi.post(endpoint, body)
-            setFetchState(s => ({...s, loading: false}));
-            return response.data;
+
+            setFetchState(prev => ({
+                ...prev,
+                loading: true
+            }));
+
+            const response = await kanbanApi.post(endpoint, body);
+
+            setFetchState(prev => ({
+                ...prev,
+                data: response.data,
+                loading: false,
+                error: null
+            }));
+
         } catch (error: any) {
+
             if( error?.response?.data ) {
-                setFetchState(s => ({...s, loading: false, error: error.response.data}));
+                const err = getApiError(error);
+                setFetchState(prev => ({
+                    ...prev,
+                    data: null,
+                    loading: false,
+                    error: err
+                }));
                 return
-            }
-            setFetchState(s => ({...s, loading: false, error}));
+            } 
+            setFetchState(prev => ({
+                ...prev,
+                data: null,
+                loading: false,
+                error
+            }));
+            
         }
     }
 

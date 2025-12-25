@@ -1,11 +1,13 @@
 
 export const getApiError = (error: any) => {
-    console.log(error)
-    if( error?.message ) {
-        if( Array.isArray(error?.message) ) {
-            return error?.message.at(0);
+    if( error?.response?.data ) {
+        const errData = error?.response?.data;
+
+        if( Array.isArray( errData?.message ) ) {
+            return errData?.message.at(0);
         }
-        return error?.message;
+
+        return errData?.message;
     }
     return error?.message;
 }
