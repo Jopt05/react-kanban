@@ -10,14 +10,14 @@ const useForm = <T extends object>(initialState: T) => {
         }, {} as Record<keyof T, boolean>)
     );
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         setForm((prev) => ({
             ...prev,
             [e.target.name]: e.target.value
         }))
     }
 
-    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const name = e.target.name;
         form[name as keyof T] === '' ? setFormErrors((prev) => ({...prev, [name]: true})) : setFormErrors((prev) => ({...prev, [name]: false})) 
     }
