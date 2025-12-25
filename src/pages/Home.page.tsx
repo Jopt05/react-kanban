@@ -1,11 +1,14 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import Column from "../components/home/Column.component"
 import Header from "../components/home/Header.component";
 import Sidebar from "../components/home/Sidebar.component";
 import Modal from "../components/shared/Modal.compoent";
 import Taskform from "../components/home/Taskform.component";
+import { BoardContext } from "../context/board.context";
 
 export const Home = () => {
+
+  const { boardState } = useContext( BoardContext );
 
   const [sideBarOpen, setsideBarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,9 +37,9 @@ export const Home = () => {
         <div
           className="lg:w-full w-250 h-full flex gap-5 pt-29 lg:pt-0"
         >
-          <Column title="Todo" />
-          <Column title="In progress" />
-          <Column title="Done" />
+          <Column title="Todo" tasks={boardState?.tasksList?.filter(task => task.status === 'todo')}/>
+          <Column title="In progress" tasks={boardState?.tasksList?.filter(task => task.status === 'in progress')}/>
+          <Column title="Done" tasks={boardState?.tasksList?.filter(task => task.status === 'done')}/>
         </div>
       </section>
     </div>

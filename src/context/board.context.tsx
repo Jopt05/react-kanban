@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useReducer, useState } from "react";
+import { createContext, useContext, useEffect, useReducer} from "react";
 import type { Board } from "../interfaces/Board.interface";
 import kanbanApi from "../api/kanban.api";
 import { AuthContext } from "./auth.context";
