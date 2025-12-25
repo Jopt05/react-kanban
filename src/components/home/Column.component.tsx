@@ -1,10 +1,12 @@
 import TaskCard from "./TaskCard.component";
+import type { Task } from "../../interfaces/Task.interface";
 
 interface ColumnProps {
     title: string;
-}
+    tasks?: Task[];
+}   
 
-const Column = ({ title }: ColumnProps) => {
+const Column = ({ title, tasks }: ColumnProps) => {
   return (
     <div
         className="lg:w-full w-[400px] h-full flex flex-col py-4 px-5"
@@ -17,19 +19,14 @@ const Column = ({ title }: ColumnProps) => {
         <div
             className="w-full h-full flex flex-col gap-4"
         >
-            <TaskCard title="Task title" subtasks={0} />
-            <TaskCard title="Task title" subtasks={0} />
-            <TaskCard title="Task title" subtasks={0} />
-            <TaskCard title="Task title" subtasks={0} />
-            <TaskCard title="Task title" subtasks={0} />
-            <TaskCard title="Task title" subtasks={0} />
-            <TaskCard title="Task title" subtasks={0} />
-            <TaskCard title="Task title" subtasks={0} />
-            <TaskCard title="Task title" subtasks={0} />
-            <TaskCard title="Task title" subtasks={0} />
-            <TaskCard title="Task title" subtasks={0} />
-            <TaskCard title="Task title" subtasks={0} />
-            <TaskCard title="Task title" subtasks={0} />
+            {tasks?.map((task) => (
+                <TaskCard
+                    key={task.id}
+                    id={task.id}
+                    title={task.title}
+                    subtasks={0}
+                />
+            ))}
         </div>
     </div>
   )

@@ -1,9 +1,15 @@
+import { useContext } from "react";
+import { BoardContext } from "../../context/board.context";
+
 interface HeaderProps {
     onToggleSidebar: () => void;
     onAddTask: () => void;
 }
 
 const Header = ({ onToggleSidebar, onAddTask }: HeaderProps) => {
+
+    const { boardState } = useContext( BoardContext );
+
   return (
     <div
         className="flex lg:w-full w-screen lg:static fixed top-0 justify-between items-center bg-[#2b2c37] py-8 px-7 border-b border-gray-600"
@@ -15,7 +21,7 @@ const Header = ({ onToggleSidebar, onAddTask }: HeaderProps) => {
             <p
                 className="text-white text-lg font-semibold"
             >
-                Platform launch
+                {boardState?.selectedBoard?.name}
             </p>
             <p
                 className="text-[#6260c5] text-lg font-bold rotate-90 lg:hidden"

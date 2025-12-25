@@ -1,9 +1,19 @@
+import { useContext } from "react";
+import { BoardContext } from "../../context/board.context";
+
 interface SidebarProps {
     onToggleSidebar: () => void;
     sideBarOpen: boolean;
 }
 
 const Sidebar = ({ onToggleSidebar, sideBarOpen }: SidebarProps) => {
+
+  const { boardState, setSelectedBoard } = useContext( BoardContext );
+
+  const handleChangeBoard = (boardId: string) => {
+    setSelectedBoard(boardId)
+  }
+
   return (
     <section
         className={
@@ -33,8 +43,19 @@ const Sidebar = ({ onToggleSidebar, sideBarOpen }: SidebarProps) => {
           <p
             className="text-white text-lg font-semibold"
           >
-            All boards (0)
+            All boards ({boardState?.boardsList?.length})
           </p>
+          {
+            boardState?.boardsList?.map((board) => (
+              <button
+                key={board.id}
+                onClick={() => handleChangeBoard(board.id)}
+                className="bg-transparent text-left inline-flex text-[#6260c5] font-semibold hover:underline cursor-pointer"
+              >
+                {board.name}
+              </button>
+            ))
+          }
           <button
             className="bg-transparent inline-flex text-[#6260c5] font-semibold hover:underline cursor-pointer"
           >

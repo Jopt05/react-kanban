@@ -1,4 +1,5 @@
 interface TaskCardProps {
+    id: string;
     title: string;
     subtasks: number;
 }

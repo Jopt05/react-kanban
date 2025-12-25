@@ -4,11 +4,14 @@ import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 import { AppRouter } from './routers/AppRouter.tsx'
 import { AuthProvider } from './context/auth.context.tsx'
+import { BoardProvider } from './context/board.context.tsx'
 
 const AppState = ({children}: any) => {
   return (
     <AuthProvider>
-      {children}
+      <BoardProvider>
+        {children}
+      </BoardProvider>
     </AuthProvider>
   )
 }
