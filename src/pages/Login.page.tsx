@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import useForm from '../hooks/useForm.hook'
 import useFetch from '../hooks/useFetch.hook';
 import loadingGif from '../assets/loader.gif';
+import { useNavigate } from 'react-router-dom';
+import { getApiError } from '../utils/functions';
 
 export const Login = () => {
 
@@ -14,7 +16,8 @@ export const Login = () => {
 
     const [isRegistering, setIsRegistering] = useState(false);
     const [error, setError] = useState("");
-    
+
+    const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -32,11 +35,12 @@ export const Login = () => {
         }
         const data = await handlePost({endpoint: '/auth/login', body: formData});
         if( !data ) {
-            setError(fetchState?.error?.message[0] || fetchState.error?.message);
+            setError(getApiError(fetchState?.error));
             return
         }
         setError("");
         localStorage.setItem('token', data.token);
+        navigate('/');
     }
 
     const handleRegister = async() => {
@@ -47,7 +51,7 @@ export const Login = () => {
         };
         const data = await handlePost({endpoint: '/users', body: formData});
         if( !data ) {
-            setError(fetchState?.error?.message[0] || fetchState.error?.message);
+            setError(getApiError(fetchState?.error));
             return
         }
         setError("");
