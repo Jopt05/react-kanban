@@ -1,10 +1,21 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { EditTaskContext } from "../../context/edit-task.context";
 
 
 const Reviewtaskform = () => {
 
     const { editTaskState, editTask } = useContext( EditTaskContext );
+    const [taskStatus, setTaskStatus] = useState('todo');
+
+    const handleSelectChange = async(e: React.ChangeEvent<HTMLSelectElement>) => {
+        setTaskStatus(e.target.value);
+    };
+
+    useEffect(() => {
+        if (editTaskState.task) {
+            setTaskStatus(editTaskState.task.status);
+        }
+    }, [editTaskState.task]);
 
   return (
     <div className="flex flex-col gap-2 py-2">
@@ -38,7 +49,8 @@ const Reviewtaskform = () => {
         </p>
         <select
             className="shadow appearance-none border rounded w-full py-2 px-3 text-white focus:outline-none focus:shadow-outline mb-2"
-            value={editTaskState.task?.status}
+            value={taskStatus}
+            onChange={handleSelectChange}
         >
             <option value="todo">To Do</option>
             <option value="inprogress">In Progress</option>
