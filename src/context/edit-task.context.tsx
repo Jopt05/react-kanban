@@ -1,7 +1,6 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useReducer } from "react";
 import type { Task } from "../interfaces/Task.interface";
 import { editTaskReducer } from "../reducers/edit-task.reducer";
-import { BoardContext } from "./board.context";
 
 export interface EditTaskContext {
     task?: Task;
