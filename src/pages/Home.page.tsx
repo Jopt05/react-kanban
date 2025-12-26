@@ -47,9 +47,21 @@ export const Home = () => {
         <div
           className="lg:w-full w-250 h-full flex gap-5 pt-36 lg:pt-0"
         >
-          <Column title="Todo" tasks={boardState?.tasksList?.filter(task => task.status === 'todo')}/>
-          <Column title="In progress" tasks={boardState?.tasksList?.filter(task => task.status === 'in progress')}/>
-          <Column title="Done" tasks={boardState?.tasksList?.filter(task => task.status === 'done')}/>
+          <Column 
+            title="Todo" 
+            tasks={boardState?.tasksList?.filter(task => task.status === 'todo')}
+            color="bg-white"
+          />
+          <Column 
+            title="In progress" 
+            tasks={boardState?.tasksList?.filter(task => task.status === 'in-progress')}
+            color="bg-yellow-500"
+          />
+          <Column 
+            title="Done" 
+            tasks={boardState?.tasksList?.filter(task => task.status === 'done')}
+            color="bg-green-500"
+          />
         </div>
       </section>
     </div>

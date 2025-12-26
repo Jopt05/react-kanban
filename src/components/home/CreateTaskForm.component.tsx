@@ -122,7 +122,7 @@ const CreateTaskForm = () => {
             onBlur={handleBlur}
         >
             <option value="todo">To Do</option>
-            <option value="inprogress">In Progress</option>
+            <option value="in-progress">In Progress</option>
             <option value="done">Done</option>
         </select>
         <button

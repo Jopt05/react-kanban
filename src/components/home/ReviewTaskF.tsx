@@ -14,13 +14,13 @@ const ReviewTaskForm = () => {
 
     const handleSelectChange = async(e: React.ChangeEvent<HTMLSelectElement>) => {
         setIsLoading(true);
+        setTaskStatus(e.target.value);
         await updateTask(
             boardState.selectedTask!.id,
             boardState.selectedTask!.title,
             boardState.selectedTask!.description,
             e.target.value
         )
-        setTaskStatus(e.target.value);
         setIsLoading(false);
     };
 
@@ -32,7 +32,7 @@ const ReviewTaskForm = () => {
     useEffect(() => {
         if( !boardState?.selectedTask ) return;
         setTaskStatus(boardState?.selectedTask?.status);
-    }, [boardState?.selectedTask])
+    }, [])
     
 
   return (
@@ -71,7 +71,7 @@ const ReviewTaskForm = () => {
             onChange={handleSelectChange}
         >
             <option value="todo">To Do</option>
-            <option value="inprogress">In Progress</option>
+            <option value="in-progress">In Progress</option>
             <option value="done">Done</option>
         </select>
         {
