@@ -19,7 +19,7 @@ const Header = ({ onToggleSidebar, onAddTask }: HeaderProps) => {
         onClick={onToggleSidebar}
         >
             <p
-                className="text-white text-lg font-semibold w-[80%]"
+                className="text-white lg:text-lg text-sm font-semibold w-[80%]"
             >
                 {boardState?.selectedBoard?.name}
             </p>
@@ -33,7 +33,7 @@ const Header = ({ onToggleSidebar, onAddTask }: HeaderProps) => {
             className="flex gap-2"
         >
             <button
-                className="bg-[#6260c5] inline-flex text-white font-semibold py-3 px-5 rounded-full hover:underline cursor-pointer"
+                className="bg-[#6260c5] text-sm inline-flex text-white font-semibold py-3 px-5 rounded-full hover:underline cursor-pointer"
                 onClick={onAddTask}
             >
                 + Add new task
