@@ -4,7 +4,7 @@ import type { Task } from "../../interfaces/Task.interface";
 import { ModalContext } from "../../context/modal.context";
 import loadingGif from "../../assets/loader.gif";
 
-const Reviewtaskform = () => {
+const ReviewTaskForm = () => {
 
     const { boardState, setSelectedTask, updateTask } = useContext( BoardContext );
     const { openModal } = useContext( ModalContext );
@@ -85,4 +85,4 @@ const Reviewtaskform = () => {
   )
 }
 
-export default Reviewtaskform
+export default ReviewTaskForm

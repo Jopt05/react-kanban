@@ -6,7 +6,8 @@ import Modal from "../components/shared/Modal.compoent";
 import CreateTaskForm from "../components/home/CreateTaskForm.component";
 import { BoardContext } from "../context/board.context";
 import { ModalContext } from "../context/modal.context";
-import Reviewtaskform from "../components/home/Reviewtaskform.component";
+import ReviewTaskForm from "../components/home/Reviewtaskform.component";
+
 
 export const Home = () => {
 
@@ -26,7 +27,7 @@ export const Home = () => {
           (modalState.modalAction === 'create') && <CreateTaskForm />
         }
         {
-          (modalState.modalAction === 'review') && <Reviewtaskform />
+          (modalState.modalAction === 'review') && <ReviewTaskForm />
         }
         {
           (modalState.modalAction === 'edit') && <CreateTaskForm />

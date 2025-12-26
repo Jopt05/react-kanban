@@ -1,5 +1,4 @@
 import { createContext, useReducer } from "react";
-import type { Task } from "../interfaces/Task.interface";
 import { modalReducer } from "../reducers/modal.reducer";
 
 export interface ModalContext {
