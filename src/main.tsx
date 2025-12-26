@@ -1,4 +1,3 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import { BrowserRouter } from 'react-router-dom'
@@ -20,11 +19,9 @@ const AppState = ({children}: any) => {
 }
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
     <BrowserRouter>
       <AppState>
         <AppRouter />
       </AppState>
     </BrowserRouter>
-  </StrictMode>,
 )

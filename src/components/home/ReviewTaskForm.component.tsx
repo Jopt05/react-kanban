@@ -2,15 +2,26 @@ import { useContext, useEffect, useState } from "react";
 import { BoardContext } from "../../context/board.context";
 import type { Task } from "../../interfaces/Task.interface";
 import { ModalContext } from "../../context/modal.context";
+import loadingGif from "../../assets/loader.gif";
 
 const Reviewtaskform = () => {
 
-    const { boardState, setSelectedTask } = useContext( BoardContext );
+    const { boardState, setSelectedTask, updateTask } = useContext( BoardContext );
     const { openModal } = useContext( ModalContext );
+
     const [taskStatus, setTaskStatus] = useState('todo');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSelectChange = async(e: React.ChangeEvent<HTMLSelectElement>) => {
+        setIsLoading(true);
+        await updateTask(
+            boardState.selectedTask!.id,
+            boardState.selectedTask!.title,
+            boardState.selectedTask!.description,
+            e.target.value
+        )
         setTaskStatus(e.target.value);
+        setIsLoading(false);
     };
 
     const handleEditTask = async(task: Task) => {
@@ -63,6 +74,13 @@ const Reviewtaskform = () => {
             <option value="inprogress">In Progress</option>
             <option value="done">Done</option>
         </select>
+        {
+            isLoading && (
+                <div className="w-full flex justify-center">
+                    <img src={loadingGif} alt="loading" className="w-8"></img>
+                </div>
+            )
+        }
     </div>
   )
 }
