@@ -22,9 +22,7 @@ const Column = ({ title, tasks }: ColumnProps) => {
             {tasks?.map((task) => (
                 <TaskCard
                     key={task.id}
-                    id={task.id}
-                    title={task.title}
-                    subtasks={0}
+                    task={task}
                 />
             ))}
         </div>

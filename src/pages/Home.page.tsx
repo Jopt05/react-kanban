@@ -3,25 +3,34 @@ import Column from "../components/home/Column.component"
 import Header from "../components/home/Header.component";
 import Sidebar from "../components/home/Sidebar.component";
 import Modal from "../components/shared/Modal.compoent";
-import Taskform from "../components/home/Taskform.component";
+import CreateTaskForm from "../components/home/CreateTaskForm.component";
 import { BoardContext } from "../context/board.context";
+import { EditTaskContext } from "../context/edit-task.context";
+import Reviewtaskform from "../components/home/Reviewtaskform.component";
 
 export const Home = () => {
 
   const { boardState } = useContext( BoardContext );
+  const { editTaskState, closeModal, createTask } = useContext( EditTaskContext );
 
   const [sideBarOpen, setsideBarOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className="flex lg:w-full w-screen h-screen">
       <Modal 
-        onClose={() => setIsModalOpen(false)}
-        title="Add new task"
-        isOpen={isModalOpen}
+        onClose={() => closeModal()}
+        isOpen={editTaskState.isModalOpen}
         style="py-2 px-5"
       >
-        <Taskform />
+        {
+          (editTaskState.modalAction === 'create') && <CreateTaskForm />
+        }
+        {
+          (editTaskState.modalAction === 'review') && <Reviewtaskform />
+        }
+        {
+          (editTaskState.modalAction === 'edit') && <CreateTaskForm />
+        }
       </Modal>
       <Sidebar
         sideBarOpen={sideBarOpen}
@@ -32,7 +41,7 @@ export const Home = () => {
       >
         <Header
           onToggleSidebar={() => setsideBarOpen(!sideBarOpen)}
-          onAddTask={() => setIsModalOpen(true)}
+          onAddTask={() => createTask()}
         />
         <div
           className="lg:w-full w-250 h-full flex gap-5 pt-36 lg:pt-0"

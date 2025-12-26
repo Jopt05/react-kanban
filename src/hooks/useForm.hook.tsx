@@ -37,7 +37,8 @@ const useForm = <T extends object>(initialState: T) => {
         handleChange,
         handleBlur,
         resetForm,
-        formErrors
+        formErrors,
+        setForm
     }
 }
 

@@ -1,16 +1,29 @@
+import { useContext, useEffect } from "react";
 import useForm from "../../hooks/useForm.hook"
+import { EditTaskContext } from "../../context/edit-task.context";
+import type { Task } from "../../interfaces/Task.interface";
 
-const Taskform = () => {
+const CreateTaskForm = () => {
 
-    const { form, handleBlur, handleChange } = useForm({
+    const { editTaskState } = useContext( EditTaskContext );
+    const { form, handleBlur, handleChange, setForm } = useForm({
         title: '',
         description: '',
         status: 'todo'
     });
     // const [subtasks, setSubtasks] = useState<string[]>(['']);
 
+    useEffect(() => {
+        if (editTaskState.task) {
+            setForm(editTaskState.task);
+        }
+    }, [editTaskState.task]);
+
   return (
-    <form className="flex flex-col gap-2">
+    <form className="flex flex-col gap-2 py-2">
+        <h1 className="text-white text-2xl font-bold">
+            {editTaskState.modalAction === 'create' ? 'Create Task' : 'Edit Task'}
+        </h1>
         <label className='block text-white text-sm font-bold'>Title</label>
         <input 
             type="text" 
@@ -82,10 +95,12 @@ const Taskform = () => {
             type="submit"
             className="bg-[#6260c5] hover:bg-[#4a499c] text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline cursor-pointer"
         >
-            Create task
+            {
+                editTaskState.modalAction === 'create' ? 'Create Task' : 'Update Task'
+            }
         </button>
     </form>
   )
 }
 
-export default Taskform
+export default CreateTaskForm
