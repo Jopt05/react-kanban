@@ -5,31 +5,31 @@ import Sidebar from "../components/home/Sidebar.component";
 import Modal from "../components/shared/Modal.compoent";
 import CreateTaskForm from "../components/home/CreateTaskForm.component";
 import { BoardContext } from "../context/board.context";
-import { EditTaskContext } from "../context/edit-task.context";
+import { ModalContext } from "../context/modal.context";
 import Reviewtaskform from "../components/home/Reviewtaskform.component";
 
 export const Home = () => {
 
   const { boardState } = useContext( BoardContext );
-  const { editTaskState, closeModal, createTask } = useContext( EditTaskContext );
+  const { modalState, closeModal, openModal } = useContext( ModalContext );
 
   const [sideBarOpen, setsideBarOpen] = useState(false);
 
   return (
     <div className="flex lg:w-full w-screen h-screen">
       <Modal 
-        onClose={() => closeModal()}
-        isOpen={editTaskState.isModalOpen}
+        onClose={closeModal}
+        isOpen={modalState.isModalOpen}
         style="py-2 px-5"
       >
         {
-          (editTaskState.modalAction === 'create') && <CreateTaskForm />
+          (modalState.modalAction === 'create') && <CreateTaskForm />
         }
         {
-          (editTaskState.modalAction === 'review') && <Reviewtaskform />
+          (modalState.modalAction === 'review') && <Reviewtaskform />
         }
         {
-          (editTaskState.modalAction === 'edit') && <CreateTaskForm />
+          (modalState.modalAction === 'edit') && <CreateTaskForm />
         }
       </Modal>
       <Sidebar
@@ -41,7 +41,7 @@ export const Home = () => {
       >
         <Header
           onToggleSidebar={() => setsideBarOpen(!sideBarOpen)}
-          onAddTask={() => createTask()}
+          onAddTask={() => openModal('create')}
         />
         <div
           className="lg:w-full w-250 h-full flex gap-5 pt-36 lg:pt-0"

@@ -1,21 +1,28 @@
 import { useContext, useEffect, useState } from "react";
-import { EditTaskContext } from "../../context/edit-task.context";
-
+import { BoardContext } from "../../context/board.context";
+import type { Task } from "../../interfaces/Task.interface";
+import { ModalContext } from "../../context/modal.context";
 
 const Reviewtaskform = () => {
 
-    const { editTaskState, editTask } = useContext( EditTaskContext );
+    const { boardState, setSelectedTask } = useContext( BoardContext );
+    const { openModal } = useContext( ModalContext );
     const [taskStatus, setTaskStatus] = useState('todo');
 
     const handleSelectChange = async(e: React.ChangeEvent<HTMLSelectElement>) => {
         setTaskStatus(e.target.value);
     };
 
+    const handleEditTask = async(task: Task) => {
+        setSelectedTask(task.id);
+        openModal('edit');
+    }
+
     useEffect(() => {
-        if (editTaskState.task) {
-            setTaskStatus(editTaskState.task.status);
-        }
-    }, [editTaskState.task]);
+        if( !boardState?.selectedTask ) return;
+        setTaskStatus(boardState?.selectedTask?.status);
+    }, [boardState?.selectedTask])
+    
 
   return (
     <div className="flex flex-col gap-2 py-2">
@@ -25,17 +32,17 @@ const Reviewtaskform = () => {
             <p
                 className="text-white text-2xl font-medium"
             >
-                {editTaskState.task?.title}
+                {boardState?.selectedTask?.title}
             </p>
             <i
                 className="bx bx-pencil text-white text-2xl cursor-pointer hover:text-[#6260c5]"
-                onClick={() => editTask(editTaskState.task!)}
+                onClick={() => handleEditTask(boardState?.selectedTask!)}
             />
         </div>
         <p
             className="text-[#6d6e85] text-sm mb-4"
         >
-            {editTaskState.task?.description || 'No description'}
+            {boardState?.selectedTask?.description || 'No description'}
         </p>
         <p
             className="text-white text-lg font-sm font-medium mb-4"

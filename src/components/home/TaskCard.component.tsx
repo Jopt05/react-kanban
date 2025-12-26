@@ -1,6 +1,7 @@
 import { useContext } from "react";
-import { EditTaskContext } from "../../context/edit-task.context";
+import { ModalContext } from "../../context/modal.context";
 import type { Task } from "../../interfaces/Task.interface";
+import { BoardContext } from "../../context/board.context";
 
 interface TaskCardProps {
     task: Task;
@@ -8,10 +9,12 @@ interface TaskCardProps {
 
 const TaskCard = ({ task }: TaskCardProps) => {
 
-    const { reviewTask } = useContext( EditTaskContext );
+    const { setSelectedTask } = useContext( BoardContext );
+    const { openModal } = useContext( ModalContext );
 
     const handleReviewTask = (task: Task) => {
-        reviewTask(task);
+        setSelectedTask(task.id);
+        openModal('review');
     };
 
   return (

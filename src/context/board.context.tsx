@@ -9,6 +9,7 @@ export interface BoardState {
     boardsList?: Board[];
     selectedBoard?: Board;
     tasksList?: Task[];
+    selectedTask?: Task;
 }
 
 export const boardInitialState: BoardState = {
@@ -18,6 +19,7 @@ export const boardInitialState: BoardState = {
 export interface BoardContextProps {
     boardState: BoardState;
     setSelectedBoard: (boardId: string) => void;
+    setSelectedTask: (taskId: string) => void;
 }
 
 export const BoardContext = createContext({} as BoardContextProps);
@@ -67,11 +69,18 @@ export const BoardProvider = ({children}: any) => {
         boardDispatch({ type: 'setSelectedBoard', payload: board })
     }
 
+    const setSelectedTask = (taskId: string) => {
+        const task = boardState?.tasksList?.find(task => task.id === taskId);
+        if( !task ) return;
+        boardDispatch({ type: 'setSelectedTask', payload: task })
+    }
+
     return (
         <BoardContext.Provider
             value={{
                 boardState,
-                setSelectedBoard
+                setSelectedBoard,
+                setSelectedTask
             }}
         >
             {children}

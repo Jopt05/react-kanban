@@ -1,27 +1,36 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect} from "react";
 import useForm from "../../hooks/useForm.hook"
-import { EditTaskContext } from "../../context/edit-task.context";
+import { ModalContext } from "../../context/modal.context";
+import { BoardContext } from "../../context/board.context";
 
 const CreateTaskForm = () => {
 
-    const { editTaskState } = useContext( EditTaskContext );
+    const { boardState } = useContext( BoardContext );
+    const { modalState } = useContext( ModalContext );
     const { form, handleBlur, handleChange, setForm } = useForm({
         title: '',
         description: '',
         status: 'todo'
     });
-    // const [subtasks, setSubtasks] = useState<string[]>(['']);
 
     useEffect(() => {
-        if (editTaskState.task) {
-            setForm(editTaskState.task);
+        if( modalState.modalAction === 'edit' ) {
+
+            if(  boardState?.selectedTask ) {
+                setForm({
+                    title: boardState?.selectedTask?.title,
+                    description: boardState?.selectedTask?.description,
+                    status: boardState?.selectedTask?.status
+                });
+            }
+            
         }
-    }, [editTaskState.task]);
+    }, [modalState.modalAction]);
 
   return (
     <form className="flex flex-col gap-2 py-2">
         <h1 className="text-white text-2xl font-bold">
-            {editTaskState.modalAction === 'create' ? 'Create Task' : 'Edit Task'}
+            {modalState.modalAction === 'create' ? 'Create Task' : 'Edit Task'}
         </h1>
         <label className='block text-white text-sm font-bold'>Title</label>
         <input 
@@ -95,7 +104,7 @@ const CreateTaskForm = () => {
             className="bg-[#6260c5] hover:bg-[#4a499c] text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline cursor-pointer"
         >
             {
-                editTaskState.modalAction === 'create' ? 'Create Task' : 'Update Task'
+                modalState.modalAction === 'create' ? 'Create Task' : 'Update Task'
             }
         </button>
     </form>

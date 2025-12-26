@@ -5,7 +5,8 @@ import type { Task } from "../interfaces/Task.interface";
 type BoardAction = 
     { type: 'setSelectedBoard', payload: Board } |
     { type: 'setBoardsList', payload: Board[] } |
-    { type: 'setTasksList', payload: Task[] }
+    { type: 'setTasksList', payload: Task[] } |
+    { type: 'setSelectedTask', payload: Task }
 
 export const boardReducer = (state: BoardState, action: BoardAction): BoardState => {
     switch (action.type) {
@@ -23,6 +24,11 @@ export const boardReducer = (state: BoardState, action: BoardAction): BoardState
             return {
                 ...state,
                 tasksList: action.payload
+            }
+        case 'setSelectedTask':
+            return {
+                ...state,
+                selectedTask: action.payload
             }
         default:
             return state
