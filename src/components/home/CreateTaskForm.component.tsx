@@ -1,7 +1,6 @@
 import { useContext, useEffect } from "react";
 import useForm from "../../hooks/useForm.hook"
 import { EditTaskContext } from "../../context/edit-task.context";
-import type { Task } from "../../interfaces/Task.interface";
 
 const CreateTaskForm = () => {
 
