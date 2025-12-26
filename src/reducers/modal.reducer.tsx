@@ -1,7 +1,7 @@
-import type { ModalContext } from "../context/modal.context";
+import type { ModalContext, ModalAction as ModalActionType } from "../context/modal.context";
 
 type ModalAction = 
-    { type: 'openModal', action: 'edit' | 'create' | 'review' } |
+    { type: 'openModal', action: ModalActionType } |
     { type: 'closeModal' }
 
 export const modalReducer = (state: ModalContext, action: ModalAction): ModalContext => {

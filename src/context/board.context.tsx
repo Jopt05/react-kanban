@@ -23,6 +23,7 @@ export interface BoardContextProps {
     setSelectedTask: (taskId: string) => void;
     createTask: (title: string, description: string, status: string) => Promise<void>;
     updateTask: (id: string, title: string, description: string, status: string) => Promise<void>;
+    createBoard: (name: string) => Promise<void>;
 }
 
 export const BoardContext = createContext({} as BoardContextProps);
@@ -102,6 +103,18 @@ export const BoardProvider = ({children}: any) => {
         }
     }
 
+    const createBoard = async(name: string) => {
+        try {
+            const response = await kanbanApi.post('/boards', { name });
+            boardDispatch({
+                type: 'setBoardsList',
+                payload: [...boardState?.boardsList, response.data]
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <BoardContext.Provider
             value={{
@@ -109,7 +122,8 @@ export const BoardProvider = ({children}: any) => {
                 setSelectedBoard,
                 setSelectedTask,
                 createTask,
-                updateTask
+                updateTask,
+                createBoard
             }}
         >
             {children}

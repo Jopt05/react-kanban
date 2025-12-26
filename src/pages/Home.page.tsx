@@ -7,6 +7,7 @@ import CreateTaskForm from "../components/home/CreateTaskForm.component";
 import { BoardContext } from "../context/board.context";
 import { ModalContext } from "../context/modal.context";
 import ReviewTaskForm from "../components/home/ReviewTaskF";
+import CreateBoardForm from "../components/home/CreateBoardForm.component";
 
 
 export const Home = () => {
@@ -31,6 +32,9 @@ export const Home = () => {
         }
         {
           (modalState.modalAction === 'edit') && <CreateTaskForm />
+        }
+        {
+          (modalState.modalAction === 'createBoard') && <CreateBoardForm />
         }
       </Modal>
       <Sidebar

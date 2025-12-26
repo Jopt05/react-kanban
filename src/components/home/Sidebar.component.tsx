@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { BoardContext } from "../../context/board.context";
+import { ModalContext } from "../../context/modal.context";
 
 interface SidebarProps {
     onToggleSidebar: () => void;
@@ -9,10 +10,15 @@ interface SidebarProps {
 const Sidebar = ({ onToggleSidebar, sideBarOpen }: SidebarProps) => {
 
   const { boardState, setSelectedBoard } = useContext( BoardContext );
+  const { openModal } = useContext( ModalContext );
 
   const handleChangeBoard = (boardId: string) => {
     setSelectedBoard(boardId)
     onToggleSidebar()
+  }
+
+  const handleCreateBoard = () => {
+    openModal('createBoard')
   }
 
   return (
@@ -58,6 +64,7 @@ const Sidebar = ({ onToggleSidebar, sideBarOpen }: SidebarProps) => {
             ))
           }
           <button
+            onClick={handleCreateBoard}
             className="bg-transparent inline-flex text-[#6260c5] font-semibold hover:underline cursor-pointer"
           >
             + Create new board

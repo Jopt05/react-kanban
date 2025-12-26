@@ -1,9 +1,12 @@
 import { createContext, useReducer } from "react";
 import { modalReducer } from "../reducers/modal.reducer";
 
+export type ModalAction =
+    'edit' | 'review' | 'create' | 'createBoard';
+
 export interface ModalContext {
     isModalOpen: boolean;
-    modalAction: 'edit' | 'review' | 'create';
+    modalAction: ModalAction;
 }
 
 export const modalInitialState: ModalContext = {
@@ -13,7 +16,7 @@ export const modalInitialState: ModalContext = {
 
 export interface ModalContextProps {
     modalState: ModalContext;
-    openModal: (action: 'edit' | 'review' | 'create') => void;
+    openModal: (action: ModalAction) => void;
     closeModal: () => void;
 }
 
@@ -23,7 +26,7 @@ export const ModalProvider = ({children}: any) => {
 
     const [modalState, modalDispatch] = useReducer(modalReducer, modalInitialState);
 
-    const openModal = (action: 'edit' | 'review' | 'create') => {
+    const openModal = (action: ModalAction) => {
         modalDispatch({ type: 'openModal', action });
     }
 
