@@ -5,6 +5,7 @@ import { AuthContext } from "./auth.context";
 import type { Task } from "../interfaces/Task.interface";
 import { boardReducer } from "../reducers/board.reducer";
 import type { Subtask } from "../interfaces/Subtask.interface";
+import { LoaderContext } from "./loader.context";
 
 export interface BoardState {
     boardsList: Board[];
@@ -35,6 +36,7 @@ export const BoardContext = createContext({} as BoardContextProps);
 export const BoardProvider = ({children}: any) => {
     
     const { authState } = useContext( AuthContext );
+    const { hideLoader, showLoader } = useContext( LoaderContext );
     const [boardState, boardDispatch] = useReducer(boardReducer, boardInitialState);
 
     useEffect(() => {
@@ -48,6 +50,7 @@ export const BoardProvider = ({children}: any) => {
     }, [boardState?.selectedBoard])
 
     const getUserBoards = async() => {
+        showLoader();
         try {
             const response = await kanbanApi.get('/boards');
             boardDispatch({ type: 'setBoardsList', payload: response.data })
@@ -57,9 +60,11 @@ export const BoardProvider = ({children}: any) => {
         } catch (error) {
             console.log(error)
         }
+        hideLoader();
     }
 
     const getBoardTasks = async() => {
+        showLoader();
         try {
             const response = await kanbanApi.get(`/boards/${boardState?.selectedBoard?.id}/tasks`);
             boardDispatch({
@@ -69,6 +74,7 @@ export const BoardProvider = ({children}: any) => {
         } catch (error) {
             console.log(error)
         }
+        hideLoader();
     }
 
     const setSelectedBoard = (boardId: string) => {
