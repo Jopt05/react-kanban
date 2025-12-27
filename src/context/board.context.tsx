@@ -147,6 +147,14 @@ export const BoardProvider = ({children}: any) => {
                 type: 'setBoardsList',
                 payload: boardState?.boardsList?.map(board => board.id === id ? {...board, ...response.data} : board)
             })
+            const matchingBoard = boardState?.boardsList?.find(board => board.id === id);
+            console.log(matchingBoard)
+            if(matchingBoard) {
+                boardDispatch({
+                    type: 'setSelectedBoard',
+                    payload: {...matchingBoard, ...response.data}
+                })
+            }
         } catch (error) {
             console.log(error)
         }
