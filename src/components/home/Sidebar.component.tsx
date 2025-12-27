@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { BoardContext } from "../../context/board.context";
-import { AuthContext } from "../../context/auth.context";
 import { ModalContext } from "../../context/modal.context";
 
 interface SidebarProps {
