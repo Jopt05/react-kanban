@@ -1,3 +1,5 @@
+import type { Subtask } from "./Subtask.interface";
+
 export interface Task {
     id:          string;
     title:       string;
@@ -7,6 +9,7 @@ export interface Task {
     createdAt:   Date;
     updatedAt:   Date;
     deletedAt:   null;
+    subtasks?:   Subtask[];
 }
 
 export interface User {

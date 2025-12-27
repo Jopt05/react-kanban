@@ -3,6 +3,12 @@ import useForm from "../../hooks/useForm.hook"
 import { ModalContext } from "../../context/modal.context";
 import { BoardContext } from "../../context/board.context";
 import loadingGif from '../../assets/loader.gif';
+import type { Subtask } from "../../interfaces/Subtask.interface";
+
+interface FormSubtask {
+    title: string;
+    id?: string;
+}
 
 const CreateTaskForm = () => {
 
@@ -13,7 +19,7 @@ const CreateTaskForm = () => {
         description: '',
         status: 'todo'
     });
-
+    const [subtasks, setSubtasks] = useState<FormSubtask[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -25,6 +31,9 @@ const CreateTaskForm = () => {
                     description: boardState?.selectedTask?.description,
                     status: boardState?.selectedTask?.status
                 });
+                setSubtasks(boardState?.selectedTask?.subtasks?.map((subtask: Subtask) => ({
+                    ...subtask,
+                })) || []);
             }
             
         }
@@ -36,7 +45,8 @@ const CreateTaskForm = () => {
         setIsLoading(true);
 
         if( modalState.modalAction === 'create' ) {
-            await createTask(form.title, form.description, form.status);
+            const filledSubtasks = subtasks.filter((subtask: FormSubtask) => subtask.title !== '');
+            await createTask(form.title, form.description, form.status, filledSubtasks);
         } else {
             await updateTask(boardState.selectedTask?.id!, form.title, form.description, form.status);
         }
@@ -44,9 +54,27 @@ const CreateTaskForm = () => {
         setIsLoading(false);
     }
 
+    const handleTaskTitleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+        const newSubtasks = [...subtasks];
+        newSubtasks[index].title = e.target.value;
+        setSubtasks(newSubtasks);
+    }
+
+    const handleDeleteSubtask = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
+        e.preventDefault();
+        const newSubtasks = [...subtasks];
+        newSubtasks.splice(index, 1);
+        setSubtasks(newSubtasks);
+    }
+
+    const handleAddSubtask = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setSubtasks([...subtasks, { title: '' }]);
+    }
+
   return (
     <form 
-        className="flex flex-col gap-2 py-2"
+        className="flex flex-col gap-2 py-2 max-h-[90vh] overflow-y-auto"
         onSubmit={handleSubmit}
     >
         <h1 className="text-white text-2xl font-bold">
@@ -67,7 +95,7 @@ const CreateTaskForm = () => {
         <label className='block text-white text-sm font-bold'>Description</label>
         <textarea 
             className=  {
-                `shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline mb-2 ${formErrors.description ? 'border-red-500' : ''}`
+                `shadow min-h-20 appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline mb-2 ${formErrors.description ? 'border-red-500' : ''}`
             }
             placeholder='Description' 
             name='description'
@@ -78,39 +106,31 @@ const CreateTaskForm = () => {
 
         <label className='block text-white text-sm font-bold'>Subtasks</label>
         {
-            // subtasks.map((task, index) => (
-            //     <div className="flex gap-2" key={index}>
-            //         <input 
-            //             type="text" 
-            //             className="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
-            //             placeholder='e.g. Task 1, Task 2, Task 3' 
-            //             name='subtasks'
-            //             value={task}
-            //             onChange={(e) => {
-            //                 const newSubtasks = [...subtasks];
-            //                 newSubtasks[index] = e.target.value;
-            //                 setSubtasks(newSubtasks);
-            //             }}
-            //         />
-            //         <button
-            //             className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer"
-            //             onClick={() => {
-            //                 const newSubtasks = [...subtasks];
-            //                 newSubtasks.splice(index, 1);
-            //                 setSubtasks(newSubtasks);
-            //             }}
-            //         >
-            //             X
-            //         </button>
-            //     </div>
-            // ))
+            subtasks.map((task, index) => (
+                <div className="flex gap-2" key={index}>
+                    <input 
+                        type="text" 
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline"
+                        placeholder='e.g. Task 1, Task 2, Task 3' 
+                        name='subtasks'
+                        value={task.title}
+                        onChange={(e) => handleTaskTitleChange(e, index)}
+                    />
+                    <button
+                        className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer"
+                        onClick={(e) => handleDeleteSubtask(e, index)}
+                    >
+                        X
+                    </button>
+                </div>
+            ))
         }
-        {/* <button
+        <button
             className="bg-[#6260c5] hover:bg-[#4a499c] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer mb-2"
-            onClick={() => setSubtasks([...subtasks, ''])}
+            onClick={handleAddSubtask}
         >
             + Add new subtask
-        </button> */}
+        </button>
         <label className='block text-white text-sm font-bold'>Status</label>
         <select
             className={
@@ -128,6 +148,7 @@ const CreateTaskForm = () => {
         <button
             type="submit"
             className="flex items-center justify-center bg-[#6260c5] hover:bg-[#4a499c] text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline cursor-pointer"
+            onClick={handleSubmit}
         >
             {
                 isLoading 

@@ -3,10 +3,16 @@ import { BoardContext } from "../../context/board.context";
 import type { Task } from "../../interfaces/Task.interface";
 import { ModalContext } from "../../context/modal.context";
 import loadingGif from "../../assets/loader.gif";
+import type { Subtask } from "../../interfaces/Subtask.interface";
 
 const ReviewTaskForm = () => {
 
-    const { boardState, setSelectedTask, updateTask } = useContext( BoardContext );
+    const { 
+        boardState, 
+        setSelectedTask, 
+        updateTask, 
+        updateSubtask 
+    } = useContext( BoardContext );
     const { openModal } = useContext( ModalContext );
 
     const [taskStatus, setTaskStatus] = useState('todo');
@@ -29,11 +35,28 @@ const ReviewTaskForm = () => {
         openModal('edit');
     }
 
+    const handleSubtaskChange = async(subtask: Subtask) => {
+        setIsLoading(true);
+        await updateSubtask(
+            boardState.selectedTask!.id,
+            subtask.id,
+            !subtask.isCompleted,
+            subtask.title
+        )
+        setIsLoading(false);
+    }
+
+    const completedSubtasks = boardState?.selectedTask?.subtasks?.filter((subtask: Subtask) => subtask.isCompleted).length || 0;
+
     useEffect(() => {
         if( !boardState?.selectedTask ) return;
         setTaskStatus(boardState?.selectedTask?.status);
-    }, [])
-    
+    }, [boardState.selectedTask])
+
+    useEffect(() => {
+        if( !boardState?.selectedTask ) return;
+        setSelectedTask(boardState.selectedTask!.id);
+    }, [boardState.tasksList])
 
   return (
     <div className="flex flex-col gap-2 py-2">
@@ -58,8 +81,26 @@ const ReviewTaskForm = () => {
         <p
             className="text-white text-lg font-sm font-medium mb-4"
         >
-            Subtasks
+            Subtasks ({completedSubtasks} of {boardState?.selectedTask?.subtasks?.length})
         </p>
+        {
+            boardState?.selectedTask?.subtasks?.map((subtask: Subtask) => (
+                <div
+                    className="flex items-center gap-4 p-4 bg-[#20212c]"
+                >
+                    <input
+                        type="checkbox"
+                        checked={subtask.isCompleted}
+                        onChange={() => handleSubtaskChange(subtask)}
+                    />
+                    <p
+                        className={`text-white text-sm font-medium ${subtask.isCompleted ? 'line-through' : ''}`}
+                    >
+                        {subtask.title}
+                    </p>
+                </div>
+            ))
+        }
         <p
             className="text-white text-lg font-sm font-medium mb-4"
         >
