@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { BoardContext } from "../../context/board.context";
+import { AuthContext } from "../../context/auth.context";
 import { ModalContext } from "../../context/modal.context";
 
 interface SidebarProps {
@@ -10,6 +11,7 @@ interface SidebarProps {
 const Sidebar = ({ onToggleSidebar, sideBarOpen }: SidebarProps) => {
 
   const { boardState, setSelectedBoard } = useContext( BoardContext );
+  const { signOut } = useContext( AuthContext );
   const { openModal } = useContext( ModalContext );
 
   const [windowWidth, setWindowWidth] = useState(0);
@@ -88,6 +90,12 @@ const Sidebar = ({ onToggleSidebar, sideBarOpen }: SidebarProps) => {
             className="bg-transparent inline-flex text-[#6260c5] font-semibold hover:underline cursor-pointer pl-7"
           >
             + Create new board
+          </button>
+          <button
+            onClick={signOut}
+            className="bg-red-500 inline-flex justify-center rounded-sm mt-auto text-white font-semibold hover:bg-red-800 cursor-pointer py-2 px-4 ml-7"
+          >
+            Sign out
           </button>
         </div>
     </section>

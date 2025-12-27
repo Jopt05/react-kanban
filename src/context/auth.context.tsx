@@ -65,7 +65,9 @@ export const AuthProvider = ({children}: any) => {
     }
 
     const signOut = () => {
+        localStorage.removeItem('token')
         dispatch({ type: 'signOut' })
+        navigate('/login')
     }
 
     return (
