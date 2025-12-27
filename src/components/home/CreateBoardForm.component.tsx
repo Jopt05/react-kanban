@@ -6,7 +6,7 @@ import loadingGif from '../../assets/loader.gif';
 
 const CreateBoardForm = () => {
 
-    const { createBoard } = useContext( BoardContext );
+    const { createBoard, boardState } = useContext( BoardContext );
     const { closeModal } = useContext( ModalContext );
 
     const { form, handleChange, handleBlur } = useForm({
@@ -25,7 +25,11 @@ const CreateBoardForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-        <p className="text-white text-2xl font-bold mb-4">Create board</p>
+        <p className="text-white text-2xl font-bold mb-4">
+            {
+                boardState?.boardsList?.length === 0 ? 'First, create a board' : 'Create new board'
+            }
+        </p>
         <label htmlFor="name" className="block text-white text-sm font-bold">Board name</label>
         <input 
             type="text"
@@ -38,7 +42,7 @@ const CreateBoardForm = () => {
         />
         <button 
             type="submit"
-            className="bg-[#6260c5] hover:bg-[#4a499c] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer"
+            className="flex items-center justify-center bg-[#6260c5] hover:bg-[#4a499c] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer"
         >
             {
                 loading ? <img src={loadingGif} alt='loading' className='w-8'></img>  : 'Create board'

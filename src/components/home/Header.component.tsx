@@ -30,12 +30,16 @@ const Header = ({ onToggleSidebar, onAddTask }: HeaderProps) => {
         <div
             className="flex gap-2"
         >
-            <button
-                className="bg-[#6260c5] text-xs inline-flex text-white font-semibold py-3 px-5 ml-4 rounded-full hover:underline cursor-pointer"
-                onClick={onAddTask}
-            >
-                + Add new task
-            </button>
+            {
+                boardState?.selectedBoard && (
+                    <button
+                        className="bg-[#6260c5] text-xs inline-flex text-white font-semibold py-3 px-5 ml-4 rounded-full hover:underline cursor-pointer"
+                        onClick={onAddTask}
+                    >
+                        + Add new task
+                    </button>
+                )
+            }
         </div>
     </div>
   )

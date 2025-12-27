@@ -29,6 +29,12 @@ const Sidebar = ({ onToggleSidebar, sideBarOpen }: SidebarProps) => {
     openModal('createBoard')
   }
 
+  useEffect(() => {
+    if( boardState.boardsList?.length === 0 ) {
+      openModal('createBoard')
+    }
+  }, [boardState.boardsList])
+
   return (
     <section
         className={

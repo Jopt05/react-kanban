@@ -49,6 +49,12 @@ export const BoardProvider = ({children}: any) => {
         getBoardTasks();
     }, [boardState?.selectedBoard])
 
+    useEffect(() => {
+        if( !boardState.selectedBoard && boardState.boardsList.length > 0 ) {
+            boardDispatch({ type: 'setSelectedBoard', payload: boardState.boardsList[0] })
+        }
+    }, [boardState?.boardsList])
+
     const getUserBoards = async() => {
         showLoader();
         try {
