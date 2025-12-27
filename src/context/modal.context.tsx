@@ -2,7 +2,7 @@ import { createContext, useReducer } from "react";
 import { modalReducer } from "../reducers/modal.reducer";
 
 export type ModalAction =
-    'edit' | 'review' | 'create' | 'createBoard';
+    'edit' | 'review' | 'create' | 'createBoard' | 'settings' | 'renameBoard';
 
 export interface ModalContext {
     isModalOpen: boolean;

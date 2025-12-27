@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { BoardContext } from "../../context/board.context";
+import { ModalContext } from "../../context/modal.context";
 
 interface HeaderProps {
     onToggleSidebar: () => void;
@@ -9,6 +10,7 @@ interface HeaderProps {
 const Header = ({ onToggleSidebar, onAddTask }: HeaderProps) => {
 
     const { boardState } = useContext( BoardContext );
+    const { openModal } = useContext( ModalContext );
 
   return (
     <div
@@ -28,7 +30,7 @@ const Header = ({ onToggleSidebar, onAddTask }: HeaderProps) => {
             ></i> 
         </div>
         <div
-            className="flex gap-2"
+            className="flex gap-1 items-center"
         >
             {
                 boardState?.selectedBoard && (
@@ -40,7 +42,12 @@ const Header = ({ onToggleSidebar, onAddTask }: HeaderProps) => {
                     </button>
                 )
             }
+            <i 
+                className='bx bx-dots-vertical-rounded text-lg text-white cursor-pointer p-2'
+                onClick={() => openModal('settings')}
+            ></i> 
         </div>
+
     </div>
   )
 }

@@ -29,6 +29,7 @@ export interface BoardContextProps {
     updateSubtask: (taskId: string, subtaskId: string, isCompleted: boolean, title: string) => Promise<void>;
     createSubtask: (taskId: string, title: string) => Promise<void>;
     deleteSubtask: (taskId: string, subtaskId: string) => Promise<void>;
+    updateBoard: (id: string, name: string) => Promise<void>;
 }
 
 export const BoardContext = createContext({} as BoardContextProps);
@@ -139,6 +140,18 @@ export const BoardProvider = ({children}: any) => {
         }
     }
 
+    const updateBoard = async(id: string, name: string) => {
+        try {
+            const response = await kanbanApi.put(`/boards/${id}`, { name });
+            boardDispatch({
+                type: 'setBoardsList',
+                payload: boardState?.boardsList?.map(board => board.id === id ? {...board, ...response.data} : board)
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const updateSubtask = async(taskId: string, subtaskId: string, isCompleted: boolean, title: string) => {
         try {
             const response = await kanbanApi.put(`/tasks/${taskId}/subtasks/${subtaskId}`, { isCompleted, title });
@@ -209,7 +222,8 @@ export const BoardProvider = ({children}: any) => {
                 createBoard,
                 updateSubtask,
                 createSubtask,
-                deleteSubtask
+                deleteSubtask,
+                updateBoard
             }}
         >
             {children}

@@ -11,7 +11,6 @@ interface SidebarProps {
 const Sidebar = ({ onToggleSidebar, sideBarOpen }: SidebarProps) => {
 
   const { boardState, setSelectedBoard } = useContext( BoardContext );
-  const { signOut } = useContext( AuthContext );
   const { openModal, closeModal } = useContext( ModalContext );
 
   const [windowWidth, setWindowWidth] = useState(0);
@@ -85,7 +84,7 @@ const Sidebar = ({ onToggleSidebar, sideBarOpen }: SidebarProps) => {
                   key={board.id}
                   onClick={() => handleChangeBoard(board.id)}
                   className={
-                    `text-left inline-flex text-[#6260c5] font-semibold hover:underline ${boardState?.selectedBoard?.id === board.id ? 'text-white' : 'text-[#6260c5]'}`
+                    `text-left inline-flex text-[#6260c5] font-semibold cursor-pointer hover:underline ${boardState?.selectedBoard?.id === board.id ? 'text-white' : 'text-[#6260c5]'}`
                   }
                 >
                   {board.name}
@@ -107,12 +106,6 @@ const Sidebar = ({ onToggleSidebar, sideBarOpen }: SidebarProps) => {
           >
             My portfolio
           </a>
-          <button
-            onClick={signOut}
-            className="bg-red-500 inline-flex justify-center rounded-sm mt-2 text-white font-semibold hover:bg-red-800 cursor-pointer py-2 px-4 ml-7"
-          >
-            Sign out
-          </button>
         </div>
     </section>
   )

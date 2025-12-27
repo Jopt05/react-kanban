@@ -8,6 +8,7 @@ import { BoardContext } from "../context/board.context";
 import { ModalContext } from "../context/modal.context";
 import ReviewTaskForm from "../components/home/ReviewTaskF";
 import CreateBoardForm from "../components/home/CreateBoardForm.component";
+import Settings from "../components/shared/Settings.component";
 
 
 export const Home = () => {
@@ -34,7 +35,13 @@ export const Home = () => {
           (modalState.modalAction === 'edit') && <CreateTaskForm />
         }
         {
-          (modalState.modalAction === 'createBoard') && <CreateBoardForm />
+          (
+            modalState.modalAction === 'createBoard' || 
+            modalState.modalAction === 'renameBoard'
+          ) && <CreateBoardForm />
+        }
+        {
+          (modalState.modalAction === 'settings') && <Settings />
         }
       </Modal>
       <Sidebar
