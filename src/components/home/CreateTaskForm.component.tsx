@@ -12,7 +12,7 @@ interface FormSubtask {
 
 const CreateTaskForm = () => {
 
-    const { boardState, createTask, updateTask } = useContext( BoardContext );
+    const { boardState, createTask, updateTask, deleteSubtask, createSubtask } = useContext( BoardContext );
     const { modalState, closeModal } = useContext( ModalContext );
     const { form, handleBlur, handleChange, setForm, formErrors } = useForm({
         title: '',
@@ -20,6 +20,8 @@ const CreateTaskForm = () => {
         status: 'todo'
     });
     const [subtasks, setSubtasks] = useState<FormSubtask[]>([]);
+    const [deletedSubtasks, setDeletedSubtasks] = useState<FormSubtask[]>([]);
+
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -43,12 +45,25 @@ const CreateTaskForm = () => {
         e.preventDefault();
         if( Object.values(formErrors).some(error => error) ) return;
         setIsLoading(true);
+        
+        const filledSubtasks = subtasks.filter((subtask: FormSubtask) => subtask.title !== '');
 
         if( modalState.modalAction === 'create' ) {
-            const filledSubtasks = subtasks.filter((subtask: FormSubtask) => subtask.title !== '');
             await createTask(form.title, form.description, form.status, filledSubtasks);
         } else {
             await updateTask(boardState.selectedTask?.id!, form.title, form.description, form.status);
+
+            for (const subtask of deletedSubtasks) {
+                if( subtask.id ) {
+                    await deleteSubtask(boardState.selectedTask?.id!, subtask.id);
+                };
+            }
+
+            for (const subtask of filledSubtasks) {
+                if( !subtask.id ) {
+                    await createSubtask(boardState.selectedTask?.id!, subtask.title);
+                }
+            }
         }
         closeModal();
         setIsLoading(false);
@@ -64,6 +79,7 @@ const CreateTaskForm = () => {
         e.preventDefault();
         const newSubtasks = [...subtasks];
         newSubtasks.splice(index, 1);
+        setDeletedSubtasks([...deletedSubtasks, subtasks[index]]);
         setSubtasks(newSubtasks);
     }
 
