@@ -189,7 +189,7 @@ export const BoardProvider = ({children}: any) => {
 
     const createSubtask = async(taskId: string, title: string) => {
         try {
-            const response = await kanbanApi.post(`/tasks/${taskId}/subtasks`, { title });
+            const response = await kanbanApi.post(`/tasks/${taskId}/subtasks`, { title, isCompleted: false });
             boardDispatch({
                 type: 'setTasksList',
                 payload: boardState?.tasksList?.map(
