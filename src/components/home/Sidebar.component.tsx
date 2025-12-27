@@ -12,7 +12,7 @@ const Sidebar = ({ onToggleSidebar, sideBarOpen }: SidebarProps) => {
 
   const { boardState, setSelectedBoard } = useContext( BoardContext );
   const { signOut } = useContext( AuthContext );
-  const { openModal } = useContext( ModalContext );
+  const { openModal, closeModal } = useContext( ModalContext );
 
   const [windowWidth, setWindowWidth] = useState(0);
 
@@ -32,6 +32,8 @@ const Sidebar = ({ onToggleSidebar, sideBarOpen }: SidebarProps) => {
   useEffect(() => {
     if( boardState.boardsList?.length === 0 ) {
       openModal('createBoard')
+    } else {
+      closeModal()
     }
   }, [boardState.boardsList])
 
