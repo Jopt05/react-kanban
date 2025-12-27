@@ -1,7 +1,8 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useContext, useReducer } from "react";
 import { authReducer } from "../reducers/auth.reducer";
 import { useNavigate } from "react-router-dom";
 import kanbanApi from "../api/kanban.api";
+import { LoaderContext } from "./loader.context";
 
 export interface AuthState {
     isLoggedIn: boolean;
@@ -23,6 +24,7 @@ export const AuthContext = createContext({} as AuthContextProps);
 
 export const AuthProvider = ({children}: any) => {
 
+    const { showLoader, hideLoader } = useContext( LoaderContext );
     const [authState, dispatch] = useReducer(authReducer, authInitialState);
 
     const navigate = useNavigate()
@@ -33,6 +35,7 @@ export const AuthProvider = ({children}: any) => {
 
     const validateAuth = async() => {
         try {
+            showLoader()
             const token = localStorage.getItem('token');
             if (!token) return
             
@@ -52,6 +55,8 @@ export const AuthProvider = ({children}: any) => {
             console.log(error)
             dispatch({type: "signOut"})
             navigate('/login')
+        } finally {
+            hideLoader()
         }
     }
 

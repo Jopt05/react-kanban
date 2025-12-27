@@ -10,15 +10,15 @@ import { LoaderProvider } from './context/loader.context.tsx'
 
 const AppState = ({children}: any) => {
   return (
-    <AuthProvider>
-      <LoaderProvider>
+    <LoaderProvider>
+      <AuthProvider>
         <BoardProvider>
           <ModalProvider>
             {children}
           </ModalProvider>
         </BoardProvider>
-      </LoaderProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </LoaderProvider>
   )
 }
 
