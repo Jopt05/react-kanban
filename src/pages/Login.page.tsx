@@ -17,6 +17,8 @@ export const Login = () => {
     const { handlePost, fetchState } = useFetch();
 
     const [isRegistering, setIsRegistering] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -102,15 +104,25 @@ export const Login = () => {
             </div>
             <div className='mb-6 w-full'>
                 <label className='block text-white text-sm font-bold mb-2'>Password</label>
-                <input 
-                    type="password" 
-                    className= {`shadow appearance-none border rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline ${formErrors?.password && 'border-red-500'}`} 
-                    placeholder='Password' 
-                    name='password'
-                    value={form.password}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                />
+                <div
+                    className= {`flex items-center shadow appearance-none border rounded w-full py-1 px-3 text-white leading-tight focus:outline-none focus:shadow-outline ${formErrors?.password && 'border-red-500'}`} 
+                >
+                    <input 
+                        type={showPassword ? 'text' : 'password'} 
+                        placeholder='Password' 
+                        name='password'
+                        className='w-full outline-none'
+                        value={form.password}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                    />
+                    <i 
+                        className={
+                            `bx ${showPassword ? 'bx-low-vision' : 'bx-eye'} p-1.5 cursor-pointer bg-gray-600 opacity-50 rounded-full`
+                        } 
+                        onClick={() => setShowPassword(!showPassword)}
+                    ></i> 
+                </div>
             </div>
             {
                 fetchState.error && (
