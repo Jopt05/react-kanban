@@ -24,14 +24,14 @@ const Header = ({ onToggleSidebar, onAddTask }: HeaderProps) => {
                 {boardState?.selectedBoard?.name}
             </p>
             <i 
-                className='bx bx-chevron-down text-[#6260c5] text-lg font-bold lg:hidden'
+                className='bx bx-chevron-down text-[#6260c5] text-2xl font-bold lg:hidden'
             ></i> 
         </div>
         <div
             className="flex gap-2"
         >
             <button
-                className="bg-[#6260c5] text-xs inline-flex text-white font-semibold py-3 px-5 ml-2 rounded-full hover:underline cursor-pointer"
+                className="bg-[#6260c5] text-xs inline-flex text-white font-semibold py-3 px-5 ml-4 rounded-full hover:underline cursor-pointer"
                 onClick={onAddTask}
             >
                 + Add new task

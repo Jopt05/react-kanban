@@ -91,9 +91,17 @@ const Sidebar = ({ onToggleSidebar, sideBarOpen }: SidebarProps) => {
           >
             + Create new board
           </button>
+          <a 
+            href="https://portfolio-jopt.vercel.app/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="bg-transparent text-sm inline-flex justify-center mt-auto text-white font-semibold hover:underline cursor-pointer pl-7"
+          >
+            My portfolio
+          </a>
           <button
             onClick={signOut}
-            className="bg-red-500 inline-flex justify-center rounded-sm mt-auto text-white font-semibold hover:bg-red-800 cursor-pointer py-2 px-4 ml-7"
+            className="bg-red-500 inline-flex justify-center rounded-sm mt-2 text-white font-semibold hover:bg-red-800 cursor-pointer py-2 px-4 ml-7"
           >
             Sign out
           </button>
