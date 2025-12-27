@@ -14,7 +14,7 @@ const Header = ({ onToggleSidebar, onAddTask }: HeaderProps) => {
 
   return (
     <div
-        className="flex lg:w-full w-screen lg:static fixed top-0 justify-between items-center bg-[#2b2c37] py-8 px-7 border-b border-gray-600"
+        className="flex lg:w-full w-screen lg:static fixed top-0 justify-between items-center bg-[#2b2c37] py-8 px-7 border-b border-gray-600 z-10"
     >
         <div
         className="flex gap-2 items-center"

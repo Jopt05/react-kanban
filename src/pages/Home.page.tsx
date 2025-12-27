@@ -9,6 +9,7 @@ import { ModalContext } from "../context/modal.context";
 import ReviewTaskForm from "../components/home/ReviewTaskF";
 import CreateBoardForm from "../components/home/CreateBoardForm.component";
 import Settings from "../components/shared/Settings.component";
+import LayoutButton from "../components/home/LayoutButton.component";
 
 
 export const Home = () => {
@@ -17,6 +18,7 @@ export const Home = () => {
   const { modalState, closeModal, openModal } = useContext( ModalContext );
 
   const [sideBarOpen, setsideBarOpen] = useState(false);
+  const [layout, setLayout] = useState<'grid' | 'list'>('grid');
 
   return (
     <div className="flex lg:w-full w-screen h-screen">
@@ -49,15 +51,21 @@ export const Home = () => {
         onToggleSidebar={() => setsideBarOpen(!sideBarOpen)}
       />
       <section
-        className="lg:w-4/5 flex flex-col overflow-x-scroll"
+        className="lg:w-4/5 w-full flex flex-col overflow-x-scroll"
       >
         <Header
           onToggleSidebar={() => setsideBarOpen(!sideBarOpen)}
           onAddTask={() => openModal('create')}
         />
         <div
-          className="lg:w-full w-250 h-full flex gap-5 pt-36 lg:pt-0"
+          className={
+            layout === 'grid' ? 'relative lg:w-full w-250 h-full flex gap-5 mt-36 lg:mt-0' : 'relative lg:w-full w-full h-full flex flex-col gap-5 mt-36 lg:mt-0'
+          }
         >
+          <LayoutButton 
+            layout={layout}
+            onChange={setLayout}
+          />
           <Column 
             title="Todo" 
             tasks={boardState?.tasksList?.filter(task => task.status === 'todo')}

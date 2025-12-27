@@ -39,7 +39,7 @@ const Sidebar = ({ onToggleSidebar, sideBarOpen }: SidebarProps) => {
     <section
         className={
           sideBarOpen 
-            ? "flex flex-col absolute top-0 left-0 z-10 w-screen h-screen bg-[#2b2c37] border-r border-gray-600 lg:w-1/5 py-9 px-7"
+            ? "flex flex-col absolute top-0 left-0 z-12 w-screen h-screen bg-[#2b2c37] border-r border-gray-600 lg:w-1/5 py-9 px-7"
             : "flex-col w-0 invisible bg-[#2b2c37] border-r border-gray-600 lg:w-1/5 lg:flex lg:static lg:visible lg:py-9 lg:pr-7"
         }
       >
