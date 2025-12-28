@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import useForm from '../hooks/useForm.hook'
-import loadingGif from '../assets/loader.gif';
 import { AuthContext } from '../context/auth.context';
 
 export const Login = () => {
