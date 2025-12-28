@@ -16,8 +16,8 @@ export const authInitialState: AuthState = {
 
 export interface AuthContextProps {
     authState: AuthState;
-    signIn: (email: string, password: string) => Promise<void>;
-    register: (email: string, password: string, name: string) => Promise<void>;
+    signIn: (email: string, password: string) => Promise<void | any>;
+    register: (email: string, password: string, name: string) => Promise<void | any>;
     signOut: () => void;
 }
 
@@ -74,6 +74,7 @@ export const AuthProvider = ({children}: any) => {
             }
         } catch (error) {
             console.log(error)
+            return error
         } finally {
             hideLoader()
         }
@@ -92,6 +93,7 @@ export const AuthProvider = ({children}: any) => {
             }
         } catch (error) {
             console.log(error)
+            return error
         } finally {
             hideLoader()
         }

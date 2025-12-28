@@ -14,6 +14,7 @@ export const Login = () => {
 
     const [isRegistering, setIsRegistering] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [errMsg, setErrMsg] = useState("");
 
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -29,7 +30,10 @@ export const Login = () => {
             email: form.email,
             password: form.password
         }
-        await signIn(formData.email, formData.password);
+        const response = await signIn(formData.email, formData.password);
+        if(response) {
+            setErrMsg(getErrorMessage(response));
+        }
     }
 
     const handleRegister = async() => {
@@ -38,8 +42,19 @@ export const Login = () => {
             password: form.password,
             name: form.name
         };
-        await register(formData.email, formData.password, formData.name);
+        const response = await register(formData.email, formData.password, formData.name);
+        if(response) {
+            setErrMsg(getErrorMessage(response));
+        }
         setIsRegistering(false);
+    }
+
+    const getErrorMessage = (error: any) => {
+        if( error?.response?.data?.message ) {
+            const msg = error.response.data.message;
+            return (Array.isArray(msg) ? msg[0] : msg);
+        }
+        return error.message;
     }
 
   return (
@@ -118,6 +133,11 @@ export const Login = () => {
                     isRegistering ? 'Register' : 'Login'
                 }
             </button>
+            {
+                errMsg && (
+                    <p className='text-red-500 mt-5 text-center'>{errMsg}</p>
+                )
+            }
         </form>
         {
             isRegistering && (
