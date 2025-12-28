@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import Column from "../components/home/Column.component"
 import Header from "../components/home/Header.component";
 import Sidebar from "../components/home/Sidebar.component";
@@ -28,6 +28,11 @@ export const Home = () => {
     }
   }
 
+  const handleChangeLayout = (layout: 'grid' | 'list') => {
+    localStorage.setItem('layout', layout);
+    setLayout(layout);
+  }
+
   const handleConfirm = () => {
     if( modalState.modalAction === 'deleteTask' ) {
       deleteTask(boardState.selectedTask!.id);
@@ -38,6 +43,13 @@ export const Home = () => {
       closeModal();
     }
   }
+
+  useEffect(() => {
+    const layout = localStorage.getItem('layout');
+    if(layout) {
+      setLayout(layout as 'grid' | 'list');
+    }
+  }, []);
 
   return (
     <div className="flex lg:w-full w-screen h-screen">
@@ -91,7 +103,7 @@ export const Home = () => {
         >
           <LayoutButton 
             layout={layout}
-            onChange={setLayout}
+            onChange={handleChangeLayout}
           />
           <Column 
             title="Todo" 
