@@ -1,8 +1,13 @@
+import { useContext } from "react";
+import { ModalContext } from "../../context/modal.context";
+
 interface ConfirmationFormProps {
     onConfirm: () => void;
 }
 
 const ConfirmationForm = ({ onConfirm }: ConfirmationFormProps) => {
+
+  const { closeModal } = useContext( ModalContext );
 
   const handleConfirm = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -29,6 +34,7 @@ const ConfirmationForm = ({ onConfirm }: ConfirmationFormProps) => {
         </button>
         <button
           className='bg-gray-500 text-white py-2 px-5 rounded-sm cursor-pointer'
+          onClick={closeModal}
         >
           No
         </button>
