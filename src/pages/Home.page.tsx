@@ -10,11 +10,12 @@ import ReviewTaskForm from "../components/home/ReviewTaskF";
 import CreateBoardForm from "../components/home/CreateBoardForm.component";
 import Settings from "../components/shared/Settings.component";
 import LayoutButton from "../components/home/LayoutButton.component";
+import ConfirmationForm from "../components/shared/ConfirmationForm.component";
 
 
 export const Home = () => {
 
-  const { boardState } = useContext( BoardContext );
+  const { boardState, deleteTask, deleteBoard } = useContext( BoardContext );
   const { modalState, closeModal, openModal } = useContext( ModalContext );
 
   const [sideBarOpen, setsideBarOpen] = useState(false);
@@ -24,6 +25,17 @@ export const Home = () => {
     const width = window.innerWidth;
     if(width < 768) {
       setsideBarOpen(!sideBarOpen);
+    }
+  }
+
+  const handleConfirm = () => {
+    if( modalState.modalAction === 'deleteTask' ) {
+      deleteTask(boardState.selectedTask!.id);
+      closeModal();
+    }
+    if( modalState.modalAction === 'deleteBoard' ) {
+      deleteBoard(boardState.selectedBoard!.id);
+      closeModal();
     }
   }
 
@@ -51,6 +63,14 @@ export const Home = () => {
         }
         {
           (modalState.modalAction === 'settings') && <Settings />
+        }
+        {
+          (modalState.modalAction === 'deleteTask' || 
+            modalState.modalAction === 'deleteBoard'
+          ) &&
+          <ConfirmationForm
+            onConfirm={() => handleConfirm()}
+          />
         }
       </Modal>
       <Sidebar

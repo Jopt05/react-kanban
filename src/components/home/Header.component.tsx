@@ -17,7 +17,7 @@ const Header = ({ onToggleSidebar, onAddTask }: HeaderProps) => {
         className="flex lg:w-full w-screen lg:static fixed top-0 justify-between items-center bg-[#2b2c37] py-8 px-7 border-b border-gray-600 z-10"
     >
         <div
-        className="flex gap-2 items-center py-2 px-3 cursor-pointer bg-gray-600 rounded-full"
+        className="flex gap-2 items-center py-2 px-3 cursor-pointer lg:bg-transparent bg-gray-600 rounded-full"
         onClick={onToggleSidebar}
         >
             <p
@@ -26,7 +26,7 @@ const Header = ({ onToggleSidebar, onAddTask }: HeaderProps) => {
                 {boardState?.selectedBoard?.name}
             </p>
             <i 
-                className='bx bx-chevron-down text-[#6260c5] text-2xl font-bold lg:hidden'
+                className='bx bx-chevron-down lg:hidden text-[#6260c5] text-2xl font-bold'
             ></i> 
         </div>
         <div

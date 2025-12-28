@@ -25,6 +25,7 @@ export interface BoardContextProps {
     setSelectedTask: (taskId: string) => void;
     createTask: (title: string, description: string, status: string, subtasks: Partial<Subtask>[]) => Promise<void>;
     updateTask: (id: string, title: string, description: string, status: string) => Promise<void>;
+    deleteTask: (id: string) => Promise<void>;
     createBoard: (name: string) => Promise<void>;
     updateSubtask: (taskId: string, subtaskId: string, isCompleted: boolean, title: string) => Promise<void>;
     createSubtask: (taskId: string, title: string) => Promise<void>;
@@ -127,6 +128,20 @@ export const BoardProvider = ({children}: any) => {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    const deleteTask = async(id: string) => {
+        showLoader();
+        try {
+            await kanbanApi.delete(`/boards/${boardState?.selectedBoard?.id}/tasks/${id}`);
+            boardDispatch({
+                type: 'setTasksList',
+                payload: boardState?.tasksList?.filter(task => task.id !== id)
+            })
+        } catch (error) {
+            console.log(error)
+        }
+        hideLoader();
     }
 
     const createBoard = async(name: string) => {
@@ -253,7 +268,8 @@ export const BoardProvider = ({children}: any) => {
                 createSubtask,
                 deleteSubtask,
                 updateBoard,
-                deleteBoard
+                deleteBoard,
+                deleteTask
             }}
         >
             {children}

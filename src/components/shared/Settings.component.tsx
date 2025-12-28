@@ -17,7 +17,7 @@ const Settings = () => {
     const handleDeleteBoard = () => {
         if( boardState?.boardsList?.length === 0 ) return;
         if( !boardState?.selectedBoard?.id ) return;
-        deleteBoard(boardState?.selectedBoard?.id);
+        openModal('deleteBoard');
     }
 
   return (

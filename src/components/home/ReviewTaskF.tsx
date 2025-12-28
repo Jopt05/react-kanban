@@ -11,12 +11,24 @@ const ReviewTaskForm = () => {
         boardState, 
         setSelectedTask, 
         updateTask, 
-        updateSubtask 
+        updateSubtask,
+        deleteTask
     } = useContext( BoardContext );
+
     const { openModal } = useContext( ModalContext );
 
     const [taskStatus, setTaskStatus] = useState('todo');
     const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        if( !boardState?.selectedTask ) return;
+        setTaskStatus(boardState?.selectedTask?.status);
+    }, [boardState.selectedTask])
+
+    useEffect(() => {
+        if( !boardState?.selectedTask ) return;
+        setSelectedTask(boardState.selectedTask!.id);
+    }, [boardState.tasksList])
 
     const handleSelectChange = async(e: React.ChangeEvent<HTMLSelectElement>) => {
         setIsLoading(true);
@@ -35,6 +47,10 @@ const ReviewTaskForm = () => {
         openModal('edit');
     }
 
+    const handleDeleteTask = async(id: string) => {
+        openModal('deleteTask');
+    }
+
     const handleSubtaskChange = async(subtask: Subtask) => {
         setIsLoading(true);
         await updateSubtask(
@@ -48,16 +64,6 @@ const ReviewTaskForm = () => {
 
     const completedSubtasks = boardState?.selectedTask?.subtasks?.filter((subtask: Subtask) => subtask.isCompleted).length || 0;
 
-    useEffect(() => {
-        if( !boardState?.selectedTask ) return;
-        setTaskStatus(boardState?.selectedTask?.status);
-    }, [boardState.selectedTask])
-
-    useEffect(() => {
-        if( !boardState?.selectedTask ) return;
-        setSelectedTask(boardState.selectedTask!.id);
-    }, [boardState.tasksList])
-
   return (
     <div className="flex flex-col gap-2 py-2">
         <div
@@ -68,10 +74,18 @@ const ReviewTaskForm = () => {
             >
                 {boardState?.selectedTask?.title}
             </p>
-            <i
-                className="bx bx-pencil text-white text-2xl cursor-pointer hover:text-[#6260c5]"
-                onClick={() => handleEditTask(boardState?.selectedTask!)}
-            />
+            <div
+                className="flex items-center gap-2"
+            >
+                <i
+                    className="bx bx-pencil text-white text-2xl cursor-pointer bg-[#6260c5] p-1 rounded-sm"
+                    onClick={() => handleEditTask(boardState?.selectedTask!)}
+                />
+                <i
+                    className="bx bx-trash text-white text-2xl cursor-pointer bg-red-500 p-1 rounded-sm"
+                    onClick={() => handleDeleteTask(boardState?.selectedTask!.id)}
+                />
+            </div>
         </div>
         <p
             className="text-[#6d6e85] text-sm mb-4"
