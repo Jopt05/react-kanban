@@ -17,7 +17,7 @@ const Header = ({ onToggleSidebar, onAddTask }: HeaderProps) => {
         className="flex lg:w-full w-screen lg:static fixed top-0 justify-between items-center bg-[#2b2c37] py-8 px-7 border-b border-gray-600 z-10"
     >
         <div
-        className="flex gap-2 items-center"
+        className="flex gap-2 items-center py-2 px-3 cursor-pointer bg-gray-600 rounded-full"
         onClick={onToggleSidebar}
         >
             <p
@@ -43,7 +43,7 @@ const Header = ({ onToggleSidebar, onAddTask }: HeaderProps) => {
                 )
             }
             <i 
-                className='bx bx-dots-vertical-rounded text-lg text-white cursor-pointer p-2'
+                className='bx bx-dots-vertical-rounded text-xl text-white cursor-pointer p-2'
                 onClick={() => openModal('settings')}
             ></i> 
         </div>
