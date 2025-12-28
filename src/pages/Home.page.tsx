@@ -20,6 +20,13 @@ export const Home = () => {
   const [sideBarOpen, setsideBarOpen] = useState(false);
   const [layout, setLayout] = useState<'grid' | 'list'>('grid');
 
+  const handleOpenSidebar = () => {
+    const width = window.innerWidth;
+    if(width < 768) {
+      setsideBarOpen(!sideBarOpen);
+    }
+  }
+
   return (
     <div className="flex lg:w-full w-screen h-screen">
       <Modal 
