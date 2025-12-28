@@ -7,7 +7,7 @@ const Settings = () => {
 
     const { signOut } = useContext( AuthContext );
     const { openModal } = useContext( ModalContext );
-    const { boardState, deleteBoard } = useContext( BoardContext );
+    const { boardState } = useContext( BoardContext );
 
     const handleRenameBoard = () => {
         if( boardState?.boardsList?.length === 0 ) return;

@@ -1,13 +1,8 @@
-import React, { useContext } from 'react'
-import { ModalContext } from '../../context/modal.context'
-
 interface ConfirmationFormProps {
     onConfirm: () => void;
 }
 
 const ConfirmationForm = ({ onConfirm }: ConfirmationFormProps) => {
-
-  const { modalState } = useContext( ModalContext );
 
   const handleConfirm = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

@@ -11,8 +11,7 @@ const ReviewTaskForm = () => {
         boardState, 
         setSelectedTask, 
         updateTask, 
-        updateSubtask,
-        deleteTask
+        updateSubtask
     } = useContext( BoardContext );
 
     const { openModal } = useContext( ModalContext );
@@ -47,7 +46,7 @@ const ReviewTaskForm = () => {
         openModal('edit');
     }
 
-    const handleDeleteTask = async(id: string) => {
+    const handleDeleteTask = async() => {
         openModal('deleteTask');
     }
 
@@ -83,7 +82,7 @@ const ReviewTaskForm = () => {
                 />
                 <i
                     className="bx bx-trash text-white text-2xl cursor-pointer bg-red-500 p-1 rounded-sm"
-                    onClick={() => handleDeleteTask(boardState?.selectedTask!.id)}
+                    onClick={() => handleDeleteTask()}
                 />
             </div>
         </div>
