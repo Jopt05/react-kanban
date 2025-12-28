@@ -1,40 +1,27 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import useForm from '../hooks/useForm.hook'
-import useFetch from '../hooks/useFetch.hook';
 import loadingGif from '../assets/loader.gif';
-import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth.context';
 
 export const Login = () => {
 
-    const { signIn } = useContext( AuthContext );
+    const { signIn, register } = useContext( AuthContext );
 
     const { form, handleChange, handleBlur, formErrors } = useForm({
         email: '',
         password: '',
         name: '',
     });
-    const { handlePost, fetchState } = useFetch();
 
     const [isRegistering, setIsRegistering] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if( fetchState?.data ) {
-            localStorage.setItem('token', fetchState?.data.token);
-            signIn(fetchState?.data.user.email, fetchState?.data.user.id);
-            navigate('/');
-        }
-    }, [fetchState?.data]);
-
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if(isRegistering) {
-            handleRegister();
+            await handleRegister();
         } else {
-            handleLogin();
+            await handleLogin();
         }
     }
 
@@ -43,7 +30,7 @@ export const Login = () => {
             email: form.email,
             password: form.password
         }
-        await handlePost({endpoint: '/auth/login', body: formData});
+        await signIn(formData.email, formData.password);
     }
 
     const handleRegister = async() => {
@@ -52,7 +39,7 @@ export const Login = () => {
             password: form.password,
             name: form.name
         };
-        await handlePost({endpoint: '/users', body: formData});
+        await register(formData.email, formData.password, formData.name);
         setIsRegistering(false);
     }
 
@@ -124,25 +111,12 @@ export const Login = () => {
                     ></i> 
                 </div>
             </div>
-            {
-                fetchState.error && (
-                    <p
-                        className='text-red-400 text-sm mb-4 capitalize text-center'
-                    >
-                        {fetchState?.error}
-                    </p>
-                )
-            }
             <button     
                 type='submit' 
                 className='bg-[#6260c5] hover:bg-[#4a499c] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline cursor-pointer'
             >
                 {
-                    fetchState.loading 
-                    ?
-                        <img src={loadingGif} alt='loading' className='w-8'></img>
-                    :
-                        isRegistering ? 'Register' : 'Login'
+                    isRegistering ? 'Register' : 'Login'
                 }
             </button>
         </form>

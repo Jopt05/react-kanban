@@ -16,7 +16,8 @@ export const authInitialState: AuthState = {
 
 export interface AuthContextProps {
     authState: AuthState;
-    signIn: (email: string, id: string) => void;
+    signIn: (email: string, password: string) => Promise<void>;
+    register: (email: string, password: string, name: string) => Promise<void>;
     signOut: () => void;
 }
 
@@ -47,7 +48,7 @@ export const AuthProvider = ({children}: any) => {
 
             if(response.data) {
                 dispatch({ type: 'signIn', payload: { email: response.data.email, id: response.data.id } })
-                navigate('/')
+                navigate('/', { replace: true })
                 return
             }
             dispatch({type: "signOut"})
@@ -60,8 +61,40 @@ export const AuthProvider = ({children}: any) => {
         }
     }
 
-    const signIn = (email: string, id: string) => {
-        dispatch({ type: 'signIn', payload: { email, id } })
+    const signIn = async(email: string, password: string) => {
+        showLoader();
+        try {
+            const response = await kanbanApi.post('/auth/login', { email, password });
+
+            if(response.data) {
+                localStorage.setItem('token', response.data.token);
+                dispatch({ type: 'signIn', payload: { email: response.data.email, id: response.data.id } })
+                navigate('/', { replace: true })
+                return
+            }
+        } catch (error) {
+            console.log(error)
+        } finally {
+            hideLoader()
+        }
+    }   
+
+    const register = async(email: string, password: string, name: string) => {
+        showLoader();
+        try {
+            const response = await kanbanApi.post('/users', { email, password, name });
+
+            if(response.data) {
+                localStorage.setItem('token', response.data.token);
+                dispatch({ type: 'signIn', payload: { email: response.data.email, id: response.data.id } })
+                navigate('/', { replace: true })
+                return
+            }
+        } catch (error) {
+            console.log(error)
+        } finally {
+            hideLoader()
+        }
     }
 
     const signOut = () => {
@@ -75,6 +108,7 @@ export const AuthProvider = ({children}: any) => {
             value={{
                 authState,
                 signIn,
+                register,
                 signOut
             }}
         >
