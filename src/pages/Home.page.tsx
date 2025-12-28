@@ -55,13 +55,13 @@ export const Home = () => {
       </Modal>
       <Sidebar
         sideBarOpen={sideBarOpen}
-        onToggleSidebar={() => setsideBarOpen(!sideBarOpen)}
+        onToggleSidebar={() => handleOpenSidebar()}
       />
       <section
         className="lg:w-4/5 w-full flex flex-col overflow-x-scroll"
       >
         <Header
-          onToggleSidebar={() => setsideBarOpen(!sideBarOpen)}
+          onToggleSidebar={() => handleOpenSidebar()}
           onAddTask={() => openModal('create')}
         />
         <div
