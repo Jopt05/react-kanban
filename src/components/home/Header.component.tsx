@@ -21,7 +21,7 @@ const Header = ({ onToggleSidebar, onAddTask }: HeaderProps) => {
         onClick={onToggleSidebar}
         >
             <p
-                className="text-white lg:text-lg text-sm font-semibold w-full"
+                className="text-white lg:text-lg text-xs font-semibold w-full"
             >
                 {boardState?.selectedBoard?.name}
             </p>

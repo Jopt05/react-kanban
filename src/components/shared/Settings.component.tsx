@@ -7,11 +7,17 @@ const Settings = () => {
 
     const { signOut } = useContext( AuthContext );
     const { openModal } = useContext( ModalContext );
-    const { boardState } = useContext( BoardContext );
+    const { boardState, deleteBoard } = useContext( BoardContext );
 
     const handleRenameBoard = () => {
         if( boardState?.boardsList?.length === 0 ) return;
         openModal('renameBoard');
+    }
+
+    const handleDeleteBoard = () => {
+        if( boardState?.boardsList?.length === 0 ) return;
+        if( !boardState?.selectedBoard?.id ) return;
+        deleteBoard(boardState?.selectedBoard?.id);
     }
 
   return (
@@ -25,6 +31,12 @@ const Settings = () => {
             className="bg-[#6260c5] inline-flex w-full justify-center rounded-sm text-white font-semibold hover:bg-blue-800 cursor-pointer py-2 px-4"
         >
             Rename board
+        </button>
+        <button
+            onClick={handleDeleteBoard}
+            className="bg-red-500 inline-flex w-full justify-center rounded-sm text-white font-semibold hover:bg-red-800 cursor-pointer py-2 px-4"
+        >
+            Delete board
         </button>
         <div
             className="w-full h-0.5 bg-gray-600 my-2"
