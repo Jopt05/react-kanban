@@ -86,7 +86,7 @@ export const AuthProvider = ({children}: any) => {
 
             if(response.data) {
                 localStorage.setItem('token', response.data.token);
-                dispatch({ type: 'signIn', payload: { email: response.data.email, id: response.data.id } })
+                dispatch({ type: 'signIn', payload: { email: response.data.user.email, id: response.data.user.id } })
                 navigate('/', { replace: true })
                 return
             }
