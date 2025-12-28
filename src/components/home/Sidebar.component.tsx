@@ -58,14 +58,14 @@ const Sidebar = ({ onToggleSidebar, sideBarOpen }: SidebarProps) => {
             X
           </button>
         </header>
-        <div
-          className="w-full h-full flex flex-col gap-3"
+        <p
+          className="text-white text-lg font-semibold pl-7 mt-2"
         >
-          <p
-            className="text-white text-lg font-semibold pl-7"
-          >
-            All boards ({boardState?.boardsList?.length})
-          </p>
+          All boards ({boardState?.boardsList?.length})
+        </p>
+        <div
+          className="w-full max-h-[calc(100vh-64px)] overflow-y-auto py-2 flex flex-col gap-3"
+        >
           {
             boardState?.boardsList?.map((board) => (
               <div 
@@ -93,19 +93,19 @@ const Sidebar = ({ onToggleSidebar, sideBarOpen }: SidebarProps) => {
           }
           <button
             onClick={handleCreateBoard}
-            className="bg-transparent inline-flex text-[#6260c5] font-semibold hover:underline cursor-pointer pl-7"
+            className="bg-transparent inline-flex text-[#6260c5] font-semibold hover:underline cursor-pointer pl-7 mt-2"
           >
             + Create new board
           </button>
-          <a 
-            href="https://portfolio-jopt.vercel.app/" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="bg-transparent text-sm inline-flex justify-center mt-auto text-white font-semibold hover:underline cursor-pointer pl-7"
-          >
-            My portfolio
-          </a>
         </div>
+        <a 
+          href="https://portfolio-jopt.vercel.app/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="bg-transparent text-sm inline-flex justify-center mt-auto text-white font-semibold hover:underline cursor-pointer pl-7"
+        >
+          My portfolio
+        </a>
     </section>
   )
 }
